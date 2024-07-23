@@ -12,12 +12,14 @@ Ensure you have `net-tools`, `docker.io`, and `nginx` installed on your system.
 ### Installation Steps:
 1. Clone the Repository
 Clone the repository using the git clone command to your server.
-`git clone github.com/'username'/'Repo'`
+
+`git clone https://github.com/Divine4212/Building-devopsfetch-for-server.git`
 
 3. Run the Installation Script
 `cd` into the file path and execute the `install.sh` script to install dependencies, create the `devopsfetch` script, set up the systemd service, and configure log rotation.
 
 ```bash
+cd devopsfetch
 sudo bash install.sh
 or
 sudo ./install.sh
@@ -263,7 +265,7 @@ sudo systemctl start devopsfetch.service
 ### Configuration
 The `devopsfetch` script and systemd service are configured during installation. The log file is located at `/var/log/devopsfetch.log`. Log rotation is set up to manage log files effectively.
 
-## Usage
+## How to Use devopsfetch
 ### Command-Line Flags
 `-h`, `--help`: Display help and usage information.
 `-p`, `--port [port_number]`: Display all active ports and services, or detailed information about a specific port.
@@ -283,7 +285,7 @@ devopsfetch -p
 ```
 ### 3. Display Information for a Specific Port
 ```bash
-devopsfetch -p 80
+devopsfetch -p 8080
 ```
 ### 4. List All Docker Images and Containers
 ```bash
@@ -291,7 +293,7 @@ devopsfetch -d
 ```
 ### 5. Display Information for a Specific Container
 ```bash
-devopsfetch -d 'my container'
+devopsfetch -d 'container'
 ```
 ### 6. List All Nginx Domains and Ports
 ```bash
@@ -299,7 +301,7 @@ devopsfetch -n
 ```
 ### 7. Display Configuration for a Specific Nginx Domain
 ```bash
-devopsfetch -n example.com
+devopsfetch -n 'devops.com'
 ```
 ### 8. List All Users and Their Last Login Times
 ```bash
@@ -307,15 +309,15 @@ devopsfetch -u
 ```
 ### 9. Display Information for a Specific User
 ```bash
-devopsfetch -u username
+devopsfetch -u 'user'
 ```
 ### 10. Display Activities Within a Specified Date Range
 ```bash
-devopsfetch -t 2024-07-22
+devopsfetch -t 2024-07-23
 ```
 ### 11. Display Activities Between Two Dates
 ```bash
-devopsfetch -t 2024-07-22 2024-07-23
+devopsfetch -t 2024-06-20 2024-07-23
 ```
 
 ## Logging Mechanism
