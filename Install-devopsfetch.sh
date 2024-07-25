@@ -8,7 +8,7 @@ fi
 
 # Install dependencies
 apt-get update
-apt-get install -y nginx docker.io jq
+apt-get install -y nginx iproute2 docker.io
 
 # Copy the main script to /usr/local/bin
 cp devopsfetch /usr/local/bin/
