@@ -47,4 +47,4 @@ cat << EOF > /etc/logrotate.d/devopsfetch
 }
 EOF
 
-echo "Installation completed successfully!"
+echo "Process Successful!"
