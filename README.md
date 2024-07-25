@@ -7,7 +7,7 @@ Additionally, it includes a logging mechanism to track script activities.
 
 ## Installation and Configuration
 ### Prerequisites
-Ensure you have `net-tools`, `docker.io`, and `nginx` installed on your system.
+Ensure you have `iproute2`, `docker.io`, and `nginx` installed on your system.
 
 ### Installation Steps:
 1. Clone the Repository
@@ -20,9 +20,9 @@ Clone the repository using the git clone command to your server.
 
 ```bash
 cd devopsfetch
-sudo bash install.sh
+sudo bash devopsfetch.sh
 or
-sudo ./install.sh
+sudo ./devopsfetch.sh
 ```
 ### Install.sh file
 ```bash
@@ -30,7 +30,7 @@ sudo ./install.sh
 
 # Install dependencies
 sudo apt update
-sudo apt install -y net-tools docker.io nginx
+sudo apt install -y iproute2 docker.io nginx
 
 # Add /usr/local/bin to PATH in .bashrc
 echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
