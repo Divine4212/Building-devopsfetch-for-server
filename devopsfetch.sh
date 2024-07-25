@@ -49,7 +49,7 @@ show_docker() {
     echo "---------------------------------------------------------------------------------"
     echo "| Container ID | Container Name        | Image Name               | Status      |"
     echo "---------------------------------------------------------------------------------"
-    docker ps --format "{{.ID}} {{.Names}} {{.Image}} {{.Status}}" | while read line; do
+    sudo docker ps --format "{{.ID}} {{.Names}} {{.Image}} {{.Status}}" | while read line; do
         container_id=$(echo $line | awk '{print $1}')
         container_name=$(echo $line | awk '{print $2}')
         image_name=$(echo $line | awk '{print $3}')
