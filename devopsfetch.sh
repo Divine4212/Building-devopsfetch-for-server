@@ -7,12 +7,12 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Install dependencies
-sudo apt-get update
-sudo apt-get install -y nginx docker.io jq
+apt-get update
+apt-get install -y nginx docker.io jq
 
 # Copy the main script to /usr/local/bin
-sudo cp devopsfetch /usr/local/bin/
-sudo chmod +x /usr/local/bin/devopsfetch
+cp devopsfetch /usr/local/bin/
+chmod +x /usr/local/bin/devopsfetch
 
 # Set up systemd service
 cat << EOF > /etc/systemd/system/devopsfetch.service
@@ -30,9 +30,9 @@ WantedBy=multi-user.target
 EOF
 
 # Enable and start the service
-sudo systemctl daemon-reload
-sudo systemctl enable devopsfetch.service
-sudo systemctl start devopsfetch.service
+systemctl daemon-reload
+systemctl enable devopsfetch.service
+systemctl start devopsfetch.service
 
 # Set up log rotation
 cat << EOF > /etc/logrotate.d/devopsfetch
