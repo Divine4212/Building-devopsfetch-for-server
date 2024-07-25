@@ -157,7 +157,7 @@ Description=DevOps Fetch Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/sudo /usr/local/bin/devopsfetch
+ExecStart=/usr/bin/sudo /usr/local/bin/devopsfetch --time $(date +%Y-%m-%d)
 StandardOutput=append:/var/log/devopsfetch.log
 StandardError=append:/var/log/devopsfetch.log
 Restart=always
