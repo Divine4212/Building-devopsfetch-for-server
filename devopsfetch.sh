@@ -35,23 +35,25 @@ HELP
 
 list_ports() {
     log_message "Listing all active ports and services"
-    echo -e "Proto\tRecv-Q\tSend-Q\tLocal Address\t\tForeign Address\t\tState\tPID/Program name"
-    netstat -tulnp | awk 'NR>2 {print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7}'
+    printf "%-10s %-8s %-8s %-22s %-22s %-12s %-20s\n" "Proto" "Recv-Q" "Send-Q" "Local Address" "Foreign Address" "State" "PID/Program name"
+    netstat -tulnp | awk 'NR>2 {printf "%-10s %-8s %-8s %-22s %-22s %-12s %-20s\n", $1, $2, $3, $4, $5, $6, $7}'
 }
 
 port_info() {
     local port=$1
     log_message "Displaying information for port $port"
-    echo -e "Information for Port $port:"
-    netstat -tulnp | grep ":$port " | awk '{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7}'
+    printf "%-10s %-8s %-8s %-22s %-22s %-12s %-20s\n" "Proto" "Recv-Q" "Send-Q" "Local Address" "Foreign Address" "State" "PID/Program name"
+    netstat -tulnp | grep ":$port " | awk '{printf "%-10s %-8s %-8s %-22s %-22s %-12s %-20s\n", $1, $2, $3, $4, $5, $6, $7}'
 }
 
 list_docker() {
     log_message "Listing all Docker images and containers"
     echo "Docker Images:"
-    sudo docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.ImageID}}\t{{.CreatedAt}}\t{{.Size}}"
+    printf "%-20s %-10s %-20s %-30s %-10s\n" "Repository" "Tag" "ImageID" "CreatedAt" "Size"
+    sudo docker images --format "{{.Repository}}\t{{.Tag}}\t{{.ImageID}}\t{{.CreatedAt}}\t{{.Size}}" | column -t
     echo "Docker Containers:"
-    sudo docker ps -a --format "table {{.Names}}\t{{.Image}}\t{{.ID}}\t{{.Status}}\t{{.Ports}}"
+    printf "%-20s %-30s %-20s %-20s %-30s\n" "Names" "Image" "ID" "Status" "Ports"
+    sudo docker ps -a --format "{{.Names}}\t{{.Image}}\t{{.ID}}\t{{.Status}}\t{{.Ports}}" | column -t
 }
 
 docker_info() {
@@ -63,15 +65,18 @@ docker_info() {
 
 list_nginx() {
     log_message "Listing all Nginx domains and their ports"
-    echo -e "Domain\t\t\t\tPort"
-    sudo nginx -T | awk '/server_name/ {getline; domain=$2} /listen/ {port=$2; print domain "\t" port}'
+    printf "%-30s %-10s\n" "Domain" "Port"
+    sudo nginx -T 2>/dev/null | awk '
+        $1 == "server_name" {domain = $2}
+        $1 == "listen" {print domain, $2}
+    ' | column -t
 }
 
 nginx_info() {
     local domain=$1
     log_message "Displaying configuration for Nginx domain $domain"
     echo "Configuration for Nginx Domain $domain:"
-    sudo nginx -T | awk -v domain="$domain" '
+    sudo nginx -T 2>/dev/null | awk -v domain="$domain" '
         $0 ~ "server_name " domain {show=1}
         show {print}
         $0 ~ "}" && show {show=0}'
@@ -79,15 +84,15 @@ nginx_info() {
 
 list_users() {
     log_message "Listing all users and their last login times"
-    echo "Users and Last Login Times:"
-    lastlog | awk 'NR>1 {print $1 "\t" $3 "\t" $4 "\t" $5 " " $6 " " $7 " " $8}'
+    printf "%-20s %-20s %-30s\n" "Username" "Last Login Time" "From"
+    lastlog | awk 'NR>1 {printf "%-20s %-20s %-30s\n", $1, $4" "$5" "$6" "$7, $3}'
 }
 
 user_info() {
     local user=$1
     log_message "Displaying information for user $user"
-    echo "Information for User $user:"
-    lastlog -u $1 | awk 'NR>1 {print $1 "\t" $3 "\t" $4 "\t" $5 " " $6 " " $7 " " $8}'
+    printf "%-20s %-20s %-30s\n" "Username" "Last Login Time" "From"
+    lastlog -u $user | awk 'NR>1 {printf "%-20s %-20s %-30s\n", $1, $4" "$5" "$6" "$7, $3}'
 }
 
 time_range_activities() {
